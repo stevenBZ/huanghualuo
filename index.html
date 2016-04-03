@@ -1,35 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cross-Browser CORS Request Example</title>
+    <title>JSONP Example</title>
 </head>
 <body>
-    <p>This example must be run on a server to work properly and will only work in browsers supporting CORS.</p>
     <script>
     
-        function createCORSRequest(method, url){
-            var xhr = new XMLHttpRequest();
-            if ("withCredentials" in xhr){
-                xhr.open(method, url, true);
-            } else if (typeof XDomainRequest != "undefined"){
-                xhr = new XDomainRequest();
-                xhr.open(method, url);
-            } else {
-                xhr = null;
-            }
-            return xhr;
+        function handleResponse(response){
+            alert("You're at IP address " + response.ip + ", which is in " + response.city + ", " + response.region_name);
         }
-
-        var request = createCORSRequest("get", "http:husterxsp.sinaapp.com/jsonp_js.php?&jsonp=callfunc");
-        if (request){
-            request.onload = function(){
-				alert("success!");
-                //do something with request.responseText
-            };
-            request.send();
-        }
- 
-
+    
+        var script = document.createElement("script");
+        script.src = "http://freegeoip.net/json/?callback=handleResponse";
+        document.body.insertBefore(script, document.body.firstChild);
     </script>
 </body>
 </html>
